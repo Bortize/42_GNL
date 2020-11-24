@@ -6,7 +6,13 @@ El motivo de este 'fd' es porque ni el usuario ni ningun software cliente puede 
 
 Bien, hasta este punto tu nos has hecho nada. La moulinette se ha encargado de abrir un fichero con la función open para facilitarte un "fd" para que puedas tener acceso al fichero .txt y comenzar a leerlo.
 
-Ahora se te esta pidiendo que crees una función que sea capaz de leer el fichero mediante el "fd" pero que devuelva unicamente cada linea leida y que cada vez que lea una nueva linea, no devuelva la linea anterior que ya leyo. Se considera linea a un parrafo de texto que termina con un salto de línea "\n"
+Ahora se te esta pidiendo que crees una función que sea capaz de leer con el "fd" el fichero .txt que tiene la moulinete en su main y que devuelvas, en función de lo que ha leído los siguientes valores:
+
+		1 : Se ha leído una línea
+		0 : Se ha llegado al final del fichero
+		-1 : Ha ocurrido un Error
+
+Para lograrlo, debes gestionar cada linea leida y que cada vez que lea una nueva linea, no devuelva la linea anterior que ya leyo. Se considera linea a un parrafo de texto que termina con un salto de línea "\n"
 
 Cómo último dato, se te dice que a la hora de compilar el programa, se va a hacer con el flag -D BUFFER_SIZE=xx cuyo valor será modificado por el usuario o por la moulinette por lo debes de controlar este valor. El buffer_size es el tamaño maximo de bytes que pueden ser leidos, por lo que para curarnos de salud aquí lo haremos con el máximo
 
@@ -78,4 +84,32 @@ int		read_line(char **s, int fd, char **line)
 		return (put_line(&s[fd], line));
 }
 *******************************************************
+
+Esta funcion recibe 3 parámetros, los cuales, la primera vez que entra, solo va a tener valor el "fd" ya que
+
+	**s --> es donde va a almacenar el contenido que tenía de antes mas lo que acaba de leer
+	fd --> es el número positivo que hace referencia al .txt
+	**line --> es donde ponemos una linea cada vez que se llama a la función  *saved
+
+Ahora se declran 3 variables que se explicaran mas adelante, segun avancemos en el código, pero a modo de resumen diremos que
+
+	buff[] --> va a almacenar el valor de BUFFER_SIZE. Recuerda que es el tamaño maximo de bytes que pueden ser leidos y que su valor sera pasado en el momento de la compilación en forma de flag (-D BUFFER_SIZE=xx) por el usuario y al presentar el proyecto claro esta, por la moulinette.
+
+	*tmp --> Es un puntero temporal cuya función sera la de trabajar con la cadena para leer lineas y servirnos de apoyo.
+
+	dvl --> variable de tipo entero donde guardaré el valor de retorno de la función read. Esto es, el número de bites que se han leido.
+
+					---------		---------		---------
+
+Ahora vamos a establecer un while con el que manejaremos la lectura del fichero ".txt"  Este bucle tiene la condición de que si la función read() que es la que lee el fichero, no devuelve un número mayor de cero (esto significaría que no ha leido ningún byte) entonces devuelve error con un return(-1)
+
+Para comprender mejor la función read(), explicaremos cada uno de los parámetros que componen su prototipo, ssize_t read(int fildes, void *buf, size_t nbyte);:
+
+			int fildes --> Toma un primer parámetro, fichero, que es el descriptor del fichero sobre el que se pretende actuar.
+
+			void *buf --> El parámetro buffer es un apuntador al área de memoria donde se va a efectuar la transferencia. O sea, de donde se van a leer los datos en la función read, o donde se van a depositar en el caso de que fuera write.
+
+			size_t nbyte --> El parámetro bytes especifica el número de bytes que se van a transferir.
+
+La funcion read() devuelve el número de bytes que realmente se han transferido. Este dato es realmente útil ya que nos da una pista para saber si se ha llegado al final del fichero. En caso de error, devuelve un -1
 
