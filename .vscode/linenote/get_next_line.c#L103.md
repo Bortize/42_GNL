@@ -93,7 +93,8 @@ Esta funcion recibe 3 parámetros, los cuales, la primera vez que entra, solo va
 
 Ahora se declran 3 variables que se explicaran mas adelante, segun avancemos en el código, pero a modo de resumen diremos que
 
-	buff[] --> va a almacenar el valor de BUFFER_SIZE. Recuerda que es el tamaño maximo de bytes que pueden ser leidos y que su valor sera pasado en el momento de la compilación en forma de flag (-D BUFFER_SIZE=xx) por el usuario y al presentar el proyecto claro esta, por la moulinette.
+	buff[] -->  Una matriz de caracteres donde se almacenará el contenido leído indicados por el BUFFER_SIZE. Recuerda que BUFFER_SIZE es el tamaño maximo de bytes que pueden ser leidos y que su valor sera pasado en el momento de la compilación en forma de flag (-D BUFFER_SIZE=xx) por el usuario y al presentar el proyecto claro esta, por la moulinette. Por lo tanto, aunque podemos darle otro valor, por motivo de eficiencia, le daremos el mismo valor de lo máximo que puede leer, buff[BUFFER_SIZE].
+	Entonces, estamos declarando la cadena buff y la estamos inicializando con "xx" tammaño para guardar algo que va a leer pero que aun no sabemos.
 
 	*tmp --> Es un puntero temporal cuya función sera la de trabajar con la cadena para leer lineas y servirnos de apoyo.
 
@@ -108,8 +109,12 @@ Para comprender mejor la función read(), explicaremos cada uno de los parámetr
 			int fildes --> Toma un primer parámetro, fichero, que es el descriptor del fichero sobre el que se pretende actuar.
 
 			void *buf --> El parámetro buffer es un apuntador al área de memoria donde se va a efectuar la transferencia. O sea, de donde se van a leer los datos en la función read, o donde se van a depositar en el caso de que fuera write.
+			ATENCION: Por motivo de eficiencia, el tamaño del *buf sera el mismo que el de BUFFER_SIZE que leer. De esta forma, el tamaño del buffer siempre coincidirá con lo que va a leer y evitaremos el exceso o pedida de memoria.
 
 			size_t nbyte --> El parámetro bytes especifica el número de bytes que se van a transferir.
 
 La funcion read() devuelve el número de bytes que realmente se han transferido. Este dato es realmente útil ya que nos da una pista para saber si se ha llegado al final del fichero. En caso de error, devuelve un -1
 
+Todas las cadenas en "C" debe terminar por un valor nulo para indicar el final de la cadena. Si no fuera así, el programa podría ejecutarse fuera del final de la cadena y no actuar como esperabas.
+Por esta razón, estamos añadiendo el valor nulo al final de la cadena de caracteres leidos con buff[dvl] = '\0'
+Ten en cuenta que dvl representa la cantidad de bytes que han sido leidos (33 por ejemplo) por lo que al hacer buff[dvl] estamos posicionando el índice de esa cadena en el final buff[33] y como hemos guardado un espacio de mas a la hora de declarar la cadena buff (acuerdate) pues ahora le insertamos el valor nulo indicando que ese es el final.

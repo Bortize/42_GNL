@@ -6,7 +6,7 @@
 /*   By: bgomez-r <bgomez-r@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:12:55 by bgomez-r          #+#    #+#             */
-/*   Updated: 2020/11/24 15:03:43 by bgomez-r         ###   ########.fr       */
+/*   Updated: 2020/11/25 00:07:25 by bgomez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int		put_line(char **s, char **line)
 	int		end_pos;
 	char	*tmp;
 
-	end_pos = get_end_pos(*s);
+	end_pos = get_end_pos(*s);// Almacena el indice donde va a encontrar los saltos de linea
 	if ((*s)[end_pos] == '\n')
 	{
-		*line = ft_substr(*s, 0, end_pos);
+		*line = ft_substr(*s, 0, end_pos);//line recibe el valor de texto de la primera linea encontrada.
 		tmp = ft_substr(*s, end_pos + 1, ft_strlen(*s));
 		free(*s);
 		*s = tmp;
@@ -74,7 +74,7 @@ int		read_line(char **s, int fd, char **line)
 	char	*tmp;
 	int		dvl;
 
-	while ((dvl = read(fd, buff, BUFFER_SIZE)) > 0)
+	while ((dvl = read(fd, buff, BUFFER_SIZE)) > 0)// buff recibe lo que se ha leido y dvl el numero de biyes que se han leido
 	{
 		buff[dvl] = '\0';
 		if (!s[fd])
@@ -100,7 +100,7 @@ int		read_line(char **s, int fd, char **line)
 
 
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)// el valor de line al inicio es 0 porque no se ha leido nada
 {
 	static char		*saved[4096];
 
