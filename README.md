@@ -1,6 +1,7 @@
-# 42_GetNextLine
+# 42_GNL	Commented
 
-![alt text](https://user-images.githubusercontent.com/17336024/74276488-1bd84900-4d16-11ea-84c5-a4aac006c36a.png)
+This branch contains all the get\_next\_line code explained in the spanish language for a better understanding.
 
-# Moulinette TEST
-![alt text](https://user-images.githubusercontent.com/17336024/74438570-c82b4400-4e6a-11ea-9f34-301c908eb0fe.png)
+> To view the comments, you must do it from Visual Studio Code, downloading the extension "Line Note", which is necessary for proper viewing
+
+![42_GNL](/Users/borjagrd/Desktop/Captura de pantalla 2020-11-24 a las 18.38.25.png)
