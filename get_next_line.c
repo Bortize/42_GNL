@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgomez-r <bgomez-r@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgomez-r <bgomez-r@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:12:55 by bgomez-r          #+#    #+#             */
-/*   Updated: 2020/02/10 19:55:18 by bgomez-r         ###   ########.fr       */
+/*   Updated: 2020/11/24 15:03:43 by bgomez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ void	del_buff(char **s)
 	}
 }
 
+
+
+
+
 int		get_end_pos(const char *s)
 {
 	int	i;
@@ -30,6 +34,11 @@ int		get_end_pos(const char *s)
 		i++;
 	return (i);
 }
+
+
+
+
+
 
 int		put_line(char **s, char **line)
 {
@@ -52,6 +61,12 @@ int		put_line(char **s, char **line)
 		return (0);
 	}
 }
+
+
+
+
+
+
 
 int		read_line(char **s, int fd, char **line)
 {
@@ -80,6 +95,10 @@ int		read_line(char **s, int fd, char **line)
 	else
 		return (put_line(&s[fd], line));
 }
+
+
+
+
 
 int		get_next_line(int fd, char **line)
 {
