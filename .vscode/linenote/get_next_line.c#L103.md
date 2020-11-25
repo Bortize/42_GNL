@@ -175,9 +175,25 @@ En este punto del programa nos encontramos con la función put_line() que recibe
 
 Ahora, calculamos la longitud de cada línea con la función get_end_pos(*s). Lo que hace esta función es que recibe todo el texto y con un iterador, va avanzando hasta encontrar un salto de línea, momento en el que se detiene y devuelve el numero de veces que avanzo el iterador, esto es, la longitud de la primera línea. Este valor se lo asignamos a end_pos para emplearlo a continuación.
 
+Lo que viene ahoa es interesante ya que practicamente es la magia del GNL. Iremos vaciando el string que contiene toda la cadena de texto "*s" linea a linea, para ir añadiendolas de igal manera a **line.
+
+Para ello, creamos un condicional en el que utilizamos el sring que contiene todo el texo y usamos de índice "end_pos" que contiene la posicion de donde se enconto el salto de línea. Entonces resumiendo, le estamos pasando la primera linea del texto y estamos diciendo que si el final de la linea coincide con un salto de línea, entonces que haga lo siguiente.
+
+Que obtenga con substr la linea, indicándole de donde tiene que leerla "*s" desde donde tiene que empezar a leer "0" y hasta donde "end_pos". El resultado de la nueva cadena se lo asignamos a *line. Bien, entonces el segundo parámetro de put_line() ya tiene la primera línea, enhorabuena.
+
+Ahora que ya hemos guardado la primera línea leída de *s ya no nos interesa tenerla, porque lo único que va a hacer es estorbarme para cuadno tenga que volver a leer la siguietne línea, por lo que vamos a eliminarla. Para ello me apollare en *tmp --> que es un puntero que nos servira de apoyo para vaciar las lineas leidas de *s
+
+Con substr le estamos diciendo que de todo el texto, se posicione para empezar a leer donde termino la primera linea, y que avance una posición porque no queremos que nos cuente el caracter del salto de línea donde se encuentra y como longitud, le metemos todo el texto, por lo que leera hasta el final.
+El resultado es una nueva cadena que asignaremos a "tmp"
+
+Ahora, liberamos el espacio de memoría de *s que contiene todo el texto. Hacemos esto porque en la siguiente línea se lo vamos a asignar de nuevo pero sin la primera línea, la cuál le hemos extraído.
+
+		>> AQUí RESIDE LA MAGÍA. SI TU GNL ESTA EN UN WHILE, LAS LINEAS
+		SE IRÁN VACIANDODE *str Y SE IRÁN AÑADIENDO A **line <<
+
+Devolvemos (1) ya que el subject nos dice que en caso de leer una línea, debemos devolver 1
 
 
-
-
-		*tmp --> que es un puntero que nos servira de apoyo para vaciar las lineas leidas de *s
+En el caso de que no haya encontrado el salto de línea, son substr copiamos todo el texto desde la posición cero hasta el final del .txt
+Liberamos la memoría de *s y devolvemos cero que es lo que nos pide el subject
 
