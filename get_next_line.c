@@ -6,12 +6,15 @@
 /*   By: bgomez-r <bgomez-r@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:12:55 by bgomez-r          #+#    #+#             */
-/*   Updated: 2020/11/25 00:07:25 by bgomez-r         ###   ########.fr       */
+/*   Updated: 2020/11/25 19:33:43 by bgomez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/*
+** Libera la memoría de *s y asigna su valor a NULL para que no quede residuos
+*/
 void	del_buff(char **s)
 {
 	if (s)
@@ -20,11 +23,10 @@ void	del_buff(char **s)
 		*s = NULL;
 	}
 }
-
-
-
-
-
+/*
+** Calcula la longitud en bytes de cada línea.
+** Cuando llega a un salto de línea entonces se detiene y devuelve la longitud
+*/
 int		get_end_pos(const char *s)
 {
 	int	i;
@@ -35,11 +37,9 @@ int		get_end_pos(const char *s)
 	return (i);
 }
 
-
-
-
-
-
+/*
+** **s contiene todo el texto y la funcion lo que hace es ir pasando línea a línea a **line
+*/
 int		put_line(char **s, char **line)
 {
 	int		end_pos;
@@ -61,12 +61,6 @@ int		put_line(char **s, char **line)
 		return (0);
 	}
 }
-
-
-
-
-
-
 
 int		read_line(char **s, int fd, char **line)
 {

@@ -42,7 +42,7 @@ Lo primero que hacemos es escribir el prototipo de la función get_next_line() q
 Vamos a declarar un puntero estático de tipo char *saved[4096] donde guardaremos cada linea leida del fichero ".txt"  Le asignamos un tamaño de 4096 que es el máximo permitido.
 Que sea estático significa que mantendrá su valor a lo largo del tiempo de ejecución y servirá para guardar en la pila las lineas del fichero que vayamos leyendo. Necesitamos que sea estático porque lo utilizaremos dentro de la función read_line() y queremos mantener su valor cuando salgamos de ella. Recuerda que todas las variales se reinician a 0 cuando termina de ejecutarse la función.
 
-Seguidamente lo que hacemos es ahorrar recursos y tiempo protegiendo a nuestra función. Declaramos un condicional if en el que pregunta si el "fd" en menor que cero (recuerda que no podía ser negativo ya que significa que el fichero no se a podido abiri entonces) o, si que se ha podido abrir el fd pero resulta que estaba vacío, osea, no habia texto, entonces devolvermos un error (-1)
+Seguidamente lo que hacemos es ahorrar recursos y tiempo protegiendo a nuestra función. Declaramos un condicional if en el que pregunta si el "fd" en menor que cero (recuerda que no podía ser negativo ya que significa que el fichero no se a podido abiri entonces) o, si que se ha podido abrir el fd pero resulta que no no hay una variable declarada donde guardar el valor de line, entonces devolvemos (-1)
 
 
 En el siguiente condicional valora si hay lineas guardadas en saved[fd] y además, si encontró un salto de linea. Si así fuera, que entre en la función put_line() pero, espera espera... para poder saber eso primero es necesario leer el "fd" ¿Cómo va a tener nada guardado el puntero saved[fd] y cómo vas a encontrar saltos de linea si aun no has llamado a la función read() para que pueda leer el ".txt"
@@ -196,4 +196,3 @@ Devolvemos (1) ya que el subject nos dice que en caso de leer una línea, debemo
 
 En el caso de que no haya encontrado el salto de línea, son substr copiamos todo el texto desde la posición cero hasta el final del .txt
 Liberamos la memoría de *s y devolvemos cero que es lo que nos pide el subject
-
