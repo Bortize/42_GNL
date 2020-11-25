@@ -4,9 +4,9 @@ Para poder leer el archivo, primero es necesario abrilo, por lo que la moulinett
 
 El motivo de este 'fd' es porque ni el usuario ni ningun software cliente puede acceder a los datos contenidos en el kernel por seguridad. Por lo que este número sirve para que puedas decirle al kernel:oye se que no puedo ver el fichero pero quiero que hagas tal cosa en este descriptor de fichero, y el kernel constesta, ah estupendo ya se que fichero es, voy a ello. "Analogía del taller de arte"
 
-Bien, hasta este punto tu nos has hecho nada. La moulinette se ha encargado de abrir un fichero con la función open para facilitarte un "fd" para que puedas tener acceso al fichero .txt y comenzar a leerlo.
+Bien, hasta este punto tu nos has hecho nada. La moulinette se ha encargado de abrir un fichero con la función open para facilitarte un "fd" para que puedas tener acceso al fichero .txt y comenzar a leerlo. Todo esto lo ha hecho en su main.
 
-Ahora se te esta pidiendo que crees una función que sea capaz de leer con el "fd" el fichero .txt que tiene la moulinete en su main y que devuelvas, en función de lo que ha leído los siguientes valores:
+Ahora se te esta pidiendo que crees una función que sea capaz de leer con el "fd" que te ha facilitado, el fichero .txt que tiene la moulinete en su main y que devuelvas en función de lo que ha leído los siguientes valores:
 
 		1 : Se ha leído una línea
 		0 : Se ha llegado al final del fichero
@@ -87,8 +87,10 @@ int		read_line(char **s, int fd, char **line)
 
 Esta funcion recibe 3 parámetros, los cuales, la primera vez que entra, solo va a tener valor el "fd" ya que
 
-	**s --> es donde va a almacenar el contenido que tenía de antes mas lo que acaba de leer
+	**s --> es donde va a almacenar el contenido que tenía de antes mas lo que acaba de leer. Cuidado, su valor lo genera dentro de su propía función, no lo trae de fuera.
+
 	fd --> es el número positivo que hace referencia al .txt
+
 	**line --> es donde ponemos una linea cada vez que se llama a la función  *saved
 
 Ahora se declran 3 variables que se explicaran mas adelante, segun avancemos en el código, pero a modo de resumen diremos que
@@ -127,3 +129,55 @@ La razón de hacer esto es la siguiente: imagina que tenemos 2 probetas, una lle
 Ahora, liberamos con free el valor contenido en s[fs] que no era mas que una cadena vacía de x bytes. Liberamos la cadena porque en la siguiente línea vamos a asignar el valor de "tmp" a s[fd].
 
 Lo que hemos hecho hasta aquí con toda esta operación, es pasarle todo el contido de "buff" a "s[fs]" para poder trabajarlo ahora con al funcion put_line()
+
+Entramos por lo tanto en el condicional if, en el que empleamos la funcion strchar con la que pretendemos buscar el salto de linea en la cadena s[fd] y si lo encuentra que ejecute enconces la función put_line()
+
+Para continuar con la explicación de esta función, imaginemos que no encuentra el salto de linea y que sale del bucle. Mas adelante, llegando al final de esta función nos volveremos a encontrar con la función put_line() y entoces entraremos a analizarla.
+
+Bien, hemos salido del bucle while y ahora comprobamos la cantidad de bytes que fueron leidos al usar la función read (en la condición del while acuérdate) los cuales asignamos a tmp. Si los bytes leidos fueran menor que cero, obviamente hay un error porque esto es imposible y entonces devolveríamos -1
+
+La siguiente situación que se comprueba es si la cantidad de bytes leídos es igual a cero y si el string s[fd] (que ahora contiene la concatenación y con ella todo el texto .txt) esta vacío. En caso de ser afirmativo, creamos una cadena vacia con substr y le asignamos el valor al puntero *line y devolvemos un cero. ¿Por qué devolvemos cero? porque el subject nos pide que si hemos llegado al final de la cadena leída devolvamos un cero y teoricamente estamos en el final...vale vale, no te pongas así...Es cierto que tambien estamos en el principio porque no hemos empezado a recorrerla, pero tambien en el final asiq...nos sirve.
+
+Tambien puede que no encontrará el salto de linea y que todo el texto este de corrido, para que el lector se quede sin pulmones. Esto es lo que se comprueba en este último caso y ahora si, como habia dicho antes, tambien toca entrar en la función put_line() que comentaremos a continuación.
+
+
+🧪🧠 🧪🧠 🧪🧠 🧪🧠     NO AVANCES HASTA COMPREDER LO DE ARRIBA    🧪🧠 🧪🧠 🧪🧠 🧪🧠
+
+
+*******************************************************
+int		put_line(char **s, char **line)
+{
+	int		end_pos;
+	char	*tmp;
+
+	end_pos = get_end_pos(*s);// Almacena el indice donde va a encontrar los saltos de linea
+	if ((*s)[end_pos] == '\n')
+	{
+		*line = ft_substr(*s, 0, end_pos);//line recibe el valor de texto de la primera linea encontrada.
+		tmp = ft_substr(*s, end_pos + 1, ft_strlen(*s));
+		free(*s);
+		*s = tmp;
+		return (1);
+	}
+	else
+	{
+		*line = ft_substr(*s, 0, ft_strlen(*s));
+		del_buff(s);
+		return (0);
+	}
+}
+*******************************************************
+
+En este punto del programa nos encontramos con la función put_line() que recibe 2 parámetros, los cuales son:
+
+		char **s --> que trae de fuera el valor de todo el texto .txt que ha leido
+		char **line --> que va a almacenar cada linea que vaya leyendo de *s
+
+Ahora, calculamos la longitud de cada línea con la función get_end_pos(*s). Lo que hace esta función es que recibe todo el texto y con un iterador, va avanzando hasta encontrar un salto de línea, momento en el que se detiene y devuelve el numero de veces que avanzo el iterador, esto es, la longitud de la primera línea. Este valor se lo asignamos a end_pos para emplearlo a continuación.
+
+
+
+
+
+		*tmp --> que es un puntero que nos servira de apoyo para vaciar las lineas leidas de *s
+
