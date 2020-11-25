@@ -6,7 +6,7 @@
 /*   By: bgomez-r <bgomez-r@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:12:55 by bgomez-r          #+#    #+#             */
-/*   Updated: 2020/11/25 19:33:43 by bgomez-r         ###   ########.fr       */
+/*   Updated: 2020/11/25 19:42:30 by bgomez-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int		put_line(char **s, char **line)
 	}
 }
 
+/*
+** Tanto char **s como **line los recibe vacíos, es dentro de la función, concretamente
+** en el while, donde van a obtener su valor
+*/
 int		read_line(char **s, int fd, char **line)
 {
 	char	buff[BUFFER_SIZE + 1];
@@ -89,9 +93,6 @@ int		read_line(char **s, int fd, char **line)
 	else
 		return (put_line(&s[fd], line));
 }
-
-
-
 
 
 int		get_next_line(int fd, char **line)// el valor de line al inicio es 0 porque no se ha leido nada
