@@ -21,6 +21,7 @@ Switch to the branch where the commented code is located with the following comm
 git checkout commented
 ```
 <br>
+
 > To view the comments, you must do it from Visual Studio Code, downloading the extension "Line Note", which is necessary for proper viewing
 
 ![42_GNL](https://raw.githubusercontent.com/Bortize/42_GNL/commented/images/lineNote.png)
